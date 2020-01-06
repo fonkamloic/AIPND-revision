@@ -4,7 +4,7 @@
 #                                                                             
 # PROGRAMMER: Fonkam Loic
 # DATE CREATED: 03/01/2020
-# REVISED DATE:
+# REVISED DATE: 06/01/2020
 # PURPOSE: Create a function classify_images that uses the classifier function
 #          to create the classifier labels and then compares the classifier
 #          labels to the pet image labels. This function inputs:
@@ -22,13 +22,11 @@
 ##
 # Imports classifier function for using CNN to classify images
 from classifier import classifier
+from os import listdir
+from os.path import join, isfile
+import ast
 
 
-# TODO 3: Define classify_images function below, specifically replace the None
-#       below by the function definition of the classify_images function.
-#       Notice that this function doesn't return anything because the
-#       results_dic dictionary that is passed into the function is a mutable
-#       data type so no return is needed.
 #
 def classify_images(images_dir, results_dic, model):
     """
@@ -67,4 +65,37 @@ def classify_images(images_dir, results_dic, model):
            None - results_dic is mutable data type so no return needed.
     """
 
-    None
+    with open('imagenet1000_clsid_to_human.txt') as imagenet_classes_file:
+        imagenet_classes_dict = ast.literal_eval(imagenet_classes_file.read())
+
+        # print(imagenet_classes_dict)
+    imagenet_dogs = []
+    for i in range(151, 269, 1):
+        imagenet_dogs.insert(i - 151, imagenet_classes_dict[i].lower())
+
+    filenames = [f for f in listdir(images_dir) if isfile(join(images_dir, f))]
+    for idx in range(0, len(filenames), 1):
+        myLabel = getLabel(filenames[idx])
+        classifier_set = classifier(join(images_dir, filenames[idx]), model).lower()
+        if results_dic.get(filenames[idx]) is None:
+            results_dic[filenames[idx]] = [myLabel, classifier_set]
+
+        if set(imagenet_dogs) & set(results_dic.get(filenames[idx])) == {}:
+            results_dic[filenames[idx]].extend(( classifier_set, 0))
+        else:
+            results_dic[filenames[idx]].extend(( classifier_set, 1))
+
+
+def getLabel(imageName):
+    low_pet_name = imageName.lower()
+    word_without_ext = low_pet_name.split(".")
+    word_pet_name = word_without_ext[0].split("_")
+    pet_name = ""
+
+    for word in word_pet_name:
+        if word.isalpha():
+            pet_name += word + " "
+
+    pet_name = pet_name.strip()
+
+    return pet_name
