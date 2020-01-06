@@ -1,0 +1,60 @@
+Command Line Arguments:
+     dir = uploaded_images/ 
+    arch = vgg 
+ dogfile = dognames.txt
+
+Pet Image Label Dictionary has 4 key-value pairs.
+Below are 4 of them:
+ 1 key:                    Lion_01.jpg  label:                       lion
+ 2 key:                     Dog_01.jpg  label:                        dog
+ 3 key:                  banana_01.jpg  label:                     banana
+ 4 key:                     Dog_02.jpg  label:                        dog
+
+     MATCH:
+
+                   Lion_01.jpg: 
+Real:                       lion   Classifier: lion, king of beasts, panthera leo  
+PetLabelDog: 0  ClassLabelDog: 0
+
+                    Dog_01.jpg: 
+Real:                        dog   Classifier:                   pug, pug-dog  
+PetLabelDog: 1  ClassLabelDog: 0
+
+                 banana_01.jpg: 
+Real:                     banana   Classifier:                         banana  
+PetLabelDog: 0  ClassLabelDog: 0
+
+                    Dog_02.jpg: 
+Real:                        dog   Classifier:                   pug, pug-dog  
+PetLabelDog: 1  ClassLabelDog: 0
+
+ NOT A MATCH:
+
+# Total Images 4 # Matches: 4 # NOT Matches: 0
+
+ ** Statistics from calculates_results_stats() function:
+N Images:  4  N Dog Images:  2  N NotDog Images:  2 
+Pct Corr dog:   0.0 Pct Corr NOTdog: 100.0  Pct Corr Breed: 100.0
+
+ ** Check Statistics - calculated from this function as a check:
+N Images:  4  N Dog Images:  2  N NotDog Images:  2 
+Pct Corr dog:   0.0 Pct Corr NOTdog: 100.0  Pct Corr Breed:   0.0
+
+
+*** Results Summary for CNN Model Architecture VGG ***
+N Images            :   4
+N Dog Images        :   2
+N Not-Dog Images    :                               2
+ 
+key:  pct_match , value:  100.0
+key:  pct_correct_dogs , value:  0.0
+key:  pct_correct_breed , value:  100.0
+key:  pct_correct_notdogs , value:  100.0
+
+INCORRECT Dog/NOT Dog Assignments:
+pet_label:  lion , classifier_label:  lion, king of beasts, panthera leo
+pet_label:  banana , classifier_label:  banana
+
+INCORRECT Dog Breed Assignment:
+
+** Total Elapsed Runtime: 0:0:6
