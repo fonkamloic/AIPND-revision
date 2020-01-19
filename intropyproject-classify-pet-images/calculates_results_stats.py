@@ -4,7 +4,7 @@
 #                                                                             
 # PROGRAMMER: Fonkam Loic
 # DATE CREATED: 07/01/2020
-# REVISED DATE: 
+# REVISED DATE: 25/01/2020
 # PURPOSE: Create a function calculates_results_stats that calculates the 
 #          statistics of the results of the programrun using the classifier's model 
 #          architecture to classify the images. This function will use the 
@@ -85,7 +85,7 @@ def calculates_results_stats(results_dic):
 
 
         # Pet Image Label is a Dog AND Labels match- counts Correct Breed
-        if results_dic[key][1].find(results_dic[key][0]):
+        if sum(results_dic[key][2:]) == 3:
             results_stats_dic['n_correct_breed'] += 1
 
         # Pet Image Label is a Dog - counts number of dog images
@@ -99,10 +99,11 @@ def calculates_results_stats(results_dic):
 
 
         # Pet Image Label is NOT a Dog
-        else:
+        if results_dic[key][4] == 0:
+            results_stats_dic['n_correct_notdogs'] += 1
             # Classifier classifies image as NOT a Dog(& pet image isn't a dog)
             # counts number of correct NOT dog clasifications.
-            results_stats_dic['n_correct_notdogs'] += 1
+
 
     # Calculates run statistics (counts & percentages) below that are calculated
     # using the counters from above.
