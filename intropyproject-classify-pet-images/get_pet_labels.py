@@ -4,7 +4,7 @@
 #                                                                             
 # PROGRAMMER: Fonkam Loic
 # DATE CREATED: 03/01/2020
-# REVISED DATE:
+# REVISED DATE: 25/01/2020
 # PURPOSE: Create the function get_pet_labels that creates the pet labels from
 #          the image's filename. This function inputs:
 #           - The Image Folder as image_dir within get_pet_labels function and
@@ -44,7 +44,7 @@ def get_pet_labels(image_dir):
 
     for idx in range(0, len(filename_list), 1):
         if filename_list[idx] not in results_dic:
-            results_dic[filename_list[idx]] = [getLable(filename_list[idx])]
+            results_dic[filename_list[idx]] = [getLabel(filename_list[idx])]
         else:
             print("** Warning: key=", filename_list[idx], "already exists in results_dic with value =",
                   results_dic[filename_list[idx]])
@@ -52,9 +52,12 @@ def get_pet_labels(image_dir):
     return results_dic
 
 
-def getLable(imageName):
+def getLabel(imageName):
+    if imageName.startswith('.'):
+        return ""
     low_pet_name = imageName.lower()
-    word_pet_name = low_pet_name.split("_")
+    word_without_ext = low_pet_name.split(".")
+    word_pet_name = word_without_ext[0].split("_")
     pet_name = ""
 
     for word in word_pet_name:
