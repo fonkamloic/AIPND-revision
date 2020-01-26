@@ -98,9 +98,14 @@ def adjust_results4_isadog(results_dic, dogfile):
     # How - iterate through results_dic if labels are found in dognames_dic
     # then label "is a dog" index3/4=1 otherwise index3/4=0 "not a dog"
     for key, value in results_dic.items():
-
+        found = False
+        names = value[0].split(",")
+        for name in names:
+            if dognames_dic.get(name):
+                found = True
+                break
         # Pet Image Label IS of Dog (e.g. found in dognames_dic)
-        if dognames_dic.get(value[0]):
+        if found:
             # Classifier Label IS image of Dog (e.g. found in dognames_dic)
             # appends (1, 1) because both labels are dogs
             if results_dic[key][1] is dognames_dic.get(results_dic[key][0]):
