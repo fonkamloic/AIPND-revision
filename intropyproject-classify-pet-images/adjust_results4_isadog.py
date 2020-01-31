@@ -77,7 +77,7 @@ def adjust_results4_isadog(results_dic, dogfile):
 
 
             # Process line by striping newline from line
-            line =  line.rstrip()
+            line = line.rstrip()
 
 
             # adds dogname(line) to dogsnames_dic if it doesn't already exist
@@ -98,19 +98,13 @@ def adjust_results4_isadog(results_dic, dogfile):
     # How - iterate through results_dic if labels are found in dognames_dic
     # then label "is a dog" index3/4=1 otherwise index3/4=0 "not a dog"
     for key, value in results_dic.items():
-        found = False
-        names = value[0].split(",")
-        for name in names:
-            if dognames_dic.get(name):
-                found = True
-                break
+
         # Pet Image Label IS of Dog (e.g. found in dognames_dic)
-        if found:
+        if dognames_dic.get(value[0]):
             # Classifier Label IS image of Dog (e.g. found in dognames_dic)
             # appends (1, 1) because both labels are dogs
-            if results_dic[key][1] is dognames_dic.get(results_dic[key][0]):
+            if value[0] in value[1]:
                 results_dic[key].extend((1, 1))
-
             # Classifier Label IS NOT image of dog (e.g. NOT in dognames_dic)
             # appends (1,0) because only pet label is a dog
             else:
@@ -121,11 +115,15 @@ def adjust_results4_isadog(results_dic, dogfile):
 
             # Classifier Label IS image of Dog (e.g. found in dognames_dic)
             # appends (0, 1)because only Classifier labe is a dog
-            if results_dic[key][1] is dognames_dic.get(results_dic[key][0]):
-                results_dic[key].extend((0, 1))
+            for a in value[1].split(","):
+                if dognames_dic.get(a):
+                    results_dic[key].extend((0, 1))
+                    break
 
 
             # Classifier Label IS NOT image of Dog (e.g. NOT in dognames_dic)
             # appends (0, 0) because both labels aren't dogs
-            else:
-                results_dic[key].extend((0, 0))
+
+            results_dic[key].extend((0, 0))
+
+    print(results_dic)
