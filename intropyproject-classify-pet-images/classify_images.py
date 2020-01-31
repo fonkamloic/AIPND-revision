@@ -36,9 +36,13 @@ def classify_images(images_dir, results_dic, model):
         imagenet_classes_dict = ast.literal_eval(imagenet_classes_file.read())
 
         # print(imagenet_classes_dict)
-    imagenet_dogs = []
+    # imagenet_dogs = []
+    # for i in range(151, 269, 1):
+    #     imagenet_dogs.insert(i - 151, imagenet_classes_dict[i].lower())
+
+    imagenet_dogs = dict()
     for i in range(151, 269, 1):
-        imagenet_dogs.insert(i - 151, imagenet_classes_dict[i].lower())
+        imagenet_dogs[imagenet_classes_dict[i].lower()] = imagenet_classes_dict[i].lower()
 
     filenames = [f for f in listdir(images_dir) if isfile(images_dir + f)]
     for idx in range(0, len(filenames), 1):
@@ -47,9 +51,14 @@ def classify_images(images_dir, results_dic, model):
         if results_dic.get(filenames[idx]) is None:
             results_dic[filenames[idx]] = [myLabel, classifier_set]
 
-        if set(imagenet_dogs) & set(results_dic.get(filenames[idx])) == {}:
-            results_dic[filenames[idx]].extend(( classifier_set, 0))
-        else:
+        if  search(imagenet_dogs, results_dic[filenames[idx]][0]):
             results_dic[filenames[idx]].extend(( classifier_set, 1))
+        else:
+            results_dic[filenames[idx]].extend(( classifier_set, 0))
 
 
+def search(values, query):
+    for value in values:
+        if value.find(query):
+           return True
+    return False
