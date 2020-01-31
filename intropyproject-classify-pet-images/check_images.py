@@ -61,8 +61,10 @@ def main():
     # this dictionary is returned from the function call as the variable results
     results = get_pet_labels(in_arg.dir)
 
+
     # Function that checks Pet Images in the results Dictionary using results
     check_creating_pet_image_labels(results)
+
 
 
     # Once the classify_images function has been defined replace first 'None'
@@ -70,6 +72,7 @@ def main():
     # function call with in_arg.arch  Once you have done the replacements your
     # function call should look like this:
     classify_images(in_arg.dir, results, in_arg.arch)
+
     # Creates Classifier Labels with classifier function, Compares Labels,
     # and adds these results to the results dictionary - results
 
@@ -85,8 +88,10 @@ def main():
     #     model can correctly classify dog images as dogs (regardless of breed)
     adjust_results4_isadog(results, in_arg.dogfile)
 
+
     # Function that checks Results Dictionary for is-a-dog adjustment using results
     check_classifying_labels_as_dogs(results)
+
 
 
     # This function creates the results statistics dictionary that contains a
